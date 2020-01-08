@@ -1,4 +1,4 @@
-.dat
-.out
-.in
-.DS_Store
+*.dat
+*.out
+*.in
+*.DS_Store
