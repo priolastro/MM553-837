@@ -14,6 +14,8 @@ def plot_hamiltonian(file):
     nome=str(file).split()[0].replace('dat','')
     q, p=np.loadtxt(file, unpack=True)
     H=0.5*p[:]**2-G*np.cos(q[:])
+    errore=(H[-1]-H[0])/H[0]
+    plt.title("relative error="+str(round(errore,10)))
     plt.plot(H,label=nome)
     plt.legend(loc='upper right')
 
@@ -27,7 +29,7 @@ G =  9.807 # acceleration due to gravity, in m/s^2
 L1 = 1.0 # length of pendulum 1 in m
 M1 = 1.0 # mass of pendulum 1 in kg
 
-t = "100"
+t = "50"
 niter = "2500"
 outfile = "pendulum.dat"
 dt = float(t)/float(niter) 
@@ -68,6 +70,6 @@ def animate(i):
     return line, time_text
 
 ani = animation.FuncAnimation(fig, animate, np.arange(1, len(x)),
-    interval=15, blit=True, init_func=init)
+    interval=0.01, blit=True, init_func=init)
 
 plt.show()

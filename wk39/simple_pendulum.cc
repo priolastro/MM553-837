@@ -37,7 +37,7 @@ int main(int argc, char** argv) {
 	double qn_le=q0, pn_le=p0;
 
 
-	Pendulum dp(1,1,0.5);	
+	Pendulum dp(1,1,1.5);	
 	Leapfrog<Pendulum> LE(dp, eps);
 
 	LE.setInitialConditions(qn_le, pn_le);
