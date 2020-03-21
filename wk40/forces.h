@@ -35,9 +35,11 @@ class CentralForce {
     int N;
     public:
         CentralForce (const ForceLaw& fin, int Nin) : f(fin), N(Nin) {}
+
         int getNDof() const {
             return 2*N;
         }
+
         double operator() (int i, const vector<double>& q) const {
             int ix=i;
             int iy=i+1;
@@ -58,6 +60,7 @@ class CentralForce {
             };
             return ftot;
         }
+        
         double calcPot (const vector<double>& q) {
             double Etot=0.0;
             for (int i=0; i<(q.size()/2);i++){

@@ -6,10 +6,10 @@ import sys
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
-t = "100"
-niter = "100000"
+t = "10"
+niter = "1000"
 outfile = "int.dat"
-nparticles = "40"
+nparticles = "10"
 
 output=check_output( './particlesbox '+t+' '+niter+' '+nparticles+' > '+outfile, shell=True) 
 

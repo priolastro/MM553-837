@@ -18,22 +18,11 @@
 using namespace std;
 using namespace std::chrono;
 
-double somma(vector<double>& vec){
-    double sum=0;
-    for (int i=0; i<vec.size();i++){
-        sum+=vec[i];
-    }
-    return sum;
-}
-
-
-
 int main(int argc, char** argv) {
     auto start=high_resolution_clock::now();
 	if (argc !=4){
 		cerr << "usage: " << argv[0] << " <t> <niter> <nparticles> \n";
 	}
-
 
     double tau; 
 	stringstream(argv[1]) >> tau; 
@@ -56,14 +45,14 @@ int main(int argc, char** argv) {
     vector<double> qn(2*particles), pn(2*particles);
 
     for (int n=0; n<qn.size(); n++) {
+        pn[n]=dist(gen);
         qn[n]=dist(gen);
-        pn[n]=dist(gen)/2;
     }
 
     SquareBox sb(Lmax, psize, 2);
-    NoForce is(1);
-    CentralForce<NoForce> cf(is,particles);
-    Leapfrog <CentralForce<NoForce>, SquareBox> LE(cf, sb, eps);
+    InverseSquareForce is(1);
+    CentralForce<InverseSquareForce> cf(is,particles);
+    Leapfrog <CentralForce<InverseSquareForce>, SquareBox> LE(cf, sb, eps);
 
     LE.setInitialConditions(qn, pn);
 
