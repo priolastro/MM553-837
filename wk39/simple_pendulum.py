@@ -31,10 +31,11 @@ M1 = 1.0 # mass of pendulum 1 in kg
 
 t = "50"
 niter = "2500"
+damping = "0"
 outfile = "pendulum.dat"
 dt = float(t)/float(niter) 
 
-output=check_output( './simple_pendulum.out '+t+' '+niter+' '+ '>' + outfile, shell=True) 
+output=check_output( './simple_pendulum.out '+t+' '+niter+' '+ damping + ' ' + '>' + outfile, shell=True) 
 q,p=np.loadtxt(outfile, unpack=True)
 
 plot_hamiltonian(outfile)
@@ -52,7 +53,7 @@ fig = plt.figure()
 ax = fig.add_subplot(111, autoscale_on=False, xlim=(-2, 2), ylim=(-2, 2))
 ax.grid()
 
-line, = ax.plot([], [], 'o-', lw=2)
+line, = ax.plot([], [], 'o-', lw=1)
 time_template = 'time = %.1f'
 time_text = ax.text(0.05, 0.9, '', transform=ax.transAxes)
 

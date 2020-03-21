@@ -22,13 +22,15 @@ using namespace std;
 
 int main(int argc, char** argv) {
 	if (argc !=3){
-		cerr << "usage: " << argv[0] << " <t> <niter> \n";
+		cerr << "usage: " << argv[0] << " <t> <niter> <damping_coeff> \n";
 	}
 
 	double tau; 
 	stringstream(argv[1]) >> tau;  //The length of the traj. 
 	int niter; 
-	stringstream(argv[2]) >> niter;  //The number of steps in a traj.  
+	stringstream(argv[2]) >> niter;  //The number of steps in a traj.
+	double damping_coeff;
+	stringstream(argv[3]) >> damping_coeff; //The damping coefficient; if 0 no damping.  
 	
 	double q0=M_PI/4, p0=0; 
 	double eps=tau/double(niter);
@@ -37,7 +39,7 @@ int main(int argc, char** argv) {
 	double qn_le=q0, pn_le=p0;
 
 
-	Pendulum dp(1,1,1.5);	
+	Pendulum dp(1,1,damping_coeff);	
 	Leapfrog<Pendulum> LE(dp, eps);
 
 	LE.setInitialConditions(qn_le, pn_le);
