@@ -30,8 +30,8 @@ L1 = 1.0 # length of pendulum 1 in m
 M1 = 1.0 # mass of pendulum 1 in kg
 
 t = "50"
-niter = "2500"
-damping = "0"
+niter = "25000"
+damping = "0.2"
 outfile = "pendulum.dat"
 dt = float(t)/float(niter) 
 
@@ -71,6 +71,6 @@ def animate(i):
     return line, time_text
 
 ani = animation.FuncAnimation(fig, animate, np.arange(1, len(x)),
-    interval=0.01, blit=True, init_func=init)
+    interval=250, blit=True, init_func=init)
 
 plt.show()
