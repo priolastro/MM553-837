@@ -1,5 +1,5 @@
 /*************************
- * Spring 
+ * Fermi–Pasta–Ulam–Tsingou problem 
  * ***********************/
 
 #include<iostream>
@@ -10,118 +10,69 @@
 #include<random>
 #include<chrono>
 #include<math.h>
+#include "omp.h"
 
 #define _USE_MATH_DEFINES
 using namespace std;
 using namespace std::chrono;
 
-class TwoSpringsOneMasses{
-    double m,k,gamma;
-    public:
-        TwoSpringsOneMasses(const double& m_in, const double& k_in, const double& gamma_in):m(m_in), k(k_in), gamma(gamma_in) {}
+#include "Forces.h"
+#ifndef __Forces__
+#define __Forces__
+#include "Integrators.h"
+#ifndef __Integrators__
+#define __Integrators__
+#include "functions.h"
+#ifndef __functions__
+#define __functions__
 
-        double operator() (const double& q) const {
-            double F=-2*q*k;
-            return F;
-        } 
-};
-
-class ThreeSpringsTwoMasses{
-    double m,k,gamma;
-    public:
-        ThreeSpringsTwoMasses(const double& m_in, const double& k_in):m(m_in), k(k_in) {}
-
-        int GetDofF(vector<double>& q) const{
-            double DofF=q.size();
-            return DofF;
-        };
-
-        double operator() (int i, const vector<double>& q) const {
-            int DofF=q.size();
-            double F;
-            if (DofF==1){ 
-                F=-2*q[i];
-            }
-            else if (DofF==2){
-                if (i==0){
-                    F=-2*q[i]+q[i+1];
-                }
-                else {
-                    F=-2*q[i]+q[i-1];
-                }
-            }
-            else if (DofF>=3){
-                if (i==0){
-                    F=-2*q[i]+q[i+1];
-                }
-                else if (i==DofF-1) {
-                    F=-2*q[i]+q[i-1];
-                }
-                else{
-                    F=-2*q[i]+q[i-1]+q[i+1];
-                }
-            }
-            return F;
-        } 
-};
-
-template<class Force>
-class Leapfrog{
-    double epsilon;
-    const Force& F;
-    vector<double> qn;
-    vector<double> pn;
-    public:
-        Leapfrog(const Force& F_in, const double& e_in): F(F_in), epsilon(e_in){}
-
-        void setInitialCondition(const vector<double>& q0, const vector<double>& p0) {
-            qn=q0, pn=p0;
-        }
-        void operator() (vector<double>& qnp1, vector<double>& pnp1){
-            int ndof=F.GetDofF(qn);
-            qnp1.resize(ndof);
-            pnp1.resize(ndof);
-            vector<double> pnp12(ndof);
-            
-            for (int i=0; i<ndof; i++){
-                pnp12[i]=pn[i]+0.5*epsilon*F(i, qn);
-                qnp1[i]=qn[i]+epsilon*pnp12[i];
-            }
-            for (int i=0; i<ndof; i++){
-                pnp1[i]=pnp12[i]+0.5*epsilon*F(i,qnp1);
-            }
-            qn=qnp1, pn=pnp1;
-            }
-};
 
 int main(int argc, char** argv) {
+    //start here
+    auto start=high_resolution_clock::now();
+
+
+    //initialize 
     double tau;
     stringstream(argv[1]) >> tau;
     int niter;
     stringstream(argv[2]) >> niter;
     int npart;
     stringstream(argv[3]) >> npart;
-
     double eps=tau/double(niter);
+    double alpha=0;
+    double beta=0;
+    
+    
+    //set name output
+    ofstream dati("dati.dat");
+    ofstream cord("cord.dat");
 
-    ofstream dati("dati.out");
+    
 
     vector<double> qn(npart),pn(npart);
     for (int n = 0; n < npart; n++) {
-        pn[n] = sin((2*M_PI * (n+0.2) / npart));
+        pn[n] = sin((M_PI*(n+0.3))/npart);
         qn[n] = 0;
     };
 
-    ThreeSpringsTwoMasses ss(1,1);
-    Leapfrog<ThreeSpringsTwoMasses> integrator(ss, eps);
+    SpringsSystem_hcq ss(1,1, alpha, beta);
+    Leapfrog<SpringsSystem_hcq> integrator(ss, eps);
 
     integrator.setInitialCondition(qn,pn);
 
     for (int t=0; t<niter; t++){
-        for (int i=0; i<qn.size();++i){
-            dati << qn[i] << " " << pn[i] << endl;
+        dati << Calc_Kinetic(pn) << " " << Calc_Potential_hcq(qn, alpha, beta) << " " << Calc_AverageSpeed(pn) << " " << Calc_sqSpeed(pn) <<  endl;
+        for (int i = 0; i < qn.size(); i++){
+            cord << qn[i] << '\n';
         }
         integrator(qn,pn);
     };
+auto stop=high_resolution_clock::now();
+auto duration = duration_cast<nanoseconds>(stop-start);
+cout << "\n###The algorithm took: " << duration.count() << "\n";
 return 1;
 }
+#endif
+#endif
+#endif
