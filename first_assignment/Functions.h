@@ -34,41 +34,8 @@ double Calc_sqSpeed(vector<double> p){
     return sqV;
 }
 
-double Calc_Potential(vector<double> q){
-    double V;
-    int DofF=q.size();
-    if (DofF==1){ 
-        for (int i=0; i<DofF; i++){
-            V+=pow(q[i],2);
-            }        
-    }
-    else if (DofF==2){
-        for (int i=0; i<DofF; i++){
-        if (i==0){
-            V+=0.5*pow(q[i]-q[i+1],2)+0.5*pow(q[i],2);
-            }
-        if (i==1){
-            V+=0.5*pow(q[i],2);
-            }
-        }
-    }
-    else if (DofF >=3){
-        for (int i=0; i<DofF; i++){
-            if (i==0){
-                V+=0.5*pow(q[i]-q[i+1],2)+0.5*pow(q[i],2);
-                }
-            else if (i==DofF-1){
-                V+=0.5*pow(q[i],2);
-            }
-            else{
-                V+=0.5*pow(q[i]-q[i+1],2);
-            }
-        }
-    }
-    return V;
-}
 
-double Calc_Potential_hcq(vector<double> q, double alpha, double beta){
+double Calc_Potential(vector<double> q, double alpha, double beta){
     double V;
     int DofF=q.size();
      if (DofF==1){ 
