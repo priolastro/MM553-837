@@ -10,6 +10,16 @@ double Calc_Kinetic(vector<double> p){
     return K;
 }
 
+double Calc_FourierMode(vector<double> q, vector<double> p, double mode){
+    double ak, d_ak, Sum;
+    for (int i = 0; i < q.size(); i++){
+        ak+=q[i]*sin(mode*i*M_PI/q.size());
+	    d_ak+=p[i]*sin(mode*i*M_PI/q.size());
+    }
+    Sum=0.5*pow(d_ak,2)+2*pow(ak,2)*sin((mode*M_PI)/(2*q.size()));
+    return Sum;
+}
+
 double Calc_LinearMomentum(vector<double> p){
     double P;
     for (int i=0; i<p.size(); i++){
