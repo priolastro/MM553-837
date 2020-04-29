@@ -6,9 +6,10 @@ import matplotlib.animation as animation
 npart = int(sys.argv[1])
 outfile='cord.dat'
 cord = np.loadtxt(outfile, unpack=True)
+cord = cord[:10000]
 
 fig, ax = plt.subplots()
-line, = ax.plot(range(npart),np.zeros(npart)*np.NaN, 'o')
+line, = ax.plot(range(npart),np.zeros(npart)*np.NaN, '-')
 ax.set_ylim(-20, 20)
 ax.set_xlim(-3, npart+3)
 
@@ -18,4 +19,5 @@ def update(i):
     return line,
 
 ani = animation.FuncAnimation(fig, update, frames=(len(cord)-npart), interval=1)
-ani.save('system.mp4', writer="ffmpeg", fps=1)
+# ani.save('system.mp4', writer="ffmpeg", fps=1)
+plt.show()
