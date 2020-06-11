@@ -83,10 +83,11 @@ void calc_expectation_value_p(int N, vector<double>& coeffs, double& expectation
 			}
 		}
         // calcola expectation value as eq.9.28 Anagnostopoulos
+		// Il segno sbagliato probabilmente dovuto alla mancanza del unita immaginaria i nel calcolo della matrice p e' corretto usando il segno meno nel calcolo che segue
 		for (int i=0; i<N-1; i++){
 			for (int j=0; j<N-1; j++){
-				expectation_p_square += p_square[i][j]*coeffs[i]*coeffs[j];
-                expectation_p += p[i][j]*coeffs[i]*coeffs[j];
+				expectation_p_square += -p_square[i][j]*coeffs[i]*coeffs[j];
+                expectation_p += -p[i][j]*coeffs[i]*coeffs[j];
 			}
 		}
 }

@@ -60,8 +60,23 @@ int main(int argc, char** argv) {
 		}
 		eigenvalues << n << "    "<< evals[level] << endl;
 	}
-	cerr << "I valori di aspettazione dell'operatore x e x^2 sono\n" << expec_x << "\n" << expec_x_sq << endl;
-	cerr << "I valori di aspettazione dell'operatore p e p^2 sono\n" << expec_p << "\n" << expec_p_sq << endl;
+
+	// Controlla quanto piccoli sono i valori di aspettazione di p e x, se molto piccoli li setta uguale a zero
+	if (abs(expec_x < 0.00000001)){
+		expec_x =0;
+	}
+	if (abs(expec_p < 0.00000001)){
+		expec_p =0;
+	}
+
+	// Calcola incertezze operator p e x
+	double Heis_uncert_relat = sqrt(expec_x_sq)*sqrt(expec_p_sq);
+
+	cerr << "Valori di aspettazione dell'operatore posizione\n" << "x = " << expec_x << "\nx^2 = " << expec_x_sq << endl;
+	cerr << "Valori di aspettazione dell'operatore momento\n" << "p = " << expec_p << "\np^2 = " << expec_p_sq << endl;
+	if (Heis_uncert_relat >= 0.5 ){
+		cerr << "Heisenberg’s uncertainty relation satisfied with a value of\n" <<  Heis_uncert_relat << endl;
+	};
 
 	cerr << "Computing wave function for N=" << nmax << endl;
 	WaveFunction wfun(coeffs);
