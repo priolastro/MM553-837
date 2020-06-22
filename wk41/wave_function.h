@@ -37,24 +37,6 @@ class WaveFunction {
             eigen *= exp(-0.5*pow(x,2));
             return eigen;
         }
-        // double basis_funcs(int n, const double& x) const {
-        //     return norms[n] * exp(-0.5*pow(x,2))*hermite(n,x);
-        // }
-        // void basis_funcs (vector<double>& vec, const double& x) const {
-        //     double h_nm2 = 1;
-        //     double h_nm1 = 2*x;
-        //     vec.clear();
-        //     vec.push_back(exp(-0.5 * pow(x,2)) * norms[0] * h_nm2);
-        //     if (nmax > 0){
-        //         vec.push_back(exp(-0.5*pow(x,2) * norms[1] * h_nm1));
-        //     }
-        //     for (int n = 2; n <= nmax; ++n){
-        //         double h_n = 2.0 * x *h_nm1 - 2.0 * (double)(n-1) * h_nm2;
-        //         vec.push_back(exp(-0.5 * pow(x,2)) * norms[n] * h_n);
-        //         h_nm2 = h_nm1;
-        //         h_nm1 = h_n;
-        //     }
-        // } 
 };
 
 #endif

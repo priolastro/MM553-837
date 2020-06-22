@@ -2,10 +2,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 from subprocess import *
 
-lambda_val = "0"
-nmin = "10"
-nmax = "30"
-level = "2"
+lambda_val = "0.5"
+nmin = "1"
+nmax = "10"
+level = "4"
 outfile = "wave_func.dat"
 
 output=check_output( './anharmonic '+lambda_val+' '+nmin+' '+nmax+' '+level+ ' >' + outfile, shell=True) 
