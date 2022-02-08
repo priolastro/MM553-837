@@ -2,6 +2,6 @@
 *.out
 *.in
 *.DS_Store
-.ipynb_checkpoints
-.vscode
+*.ipynb_checkpoints
+*.vscode
 *.pdf

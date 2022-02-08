@@ -9,9 +9,8 @@ def Covariance(x,y, ddof=0, offset=0):
     return temp / (len(x) - ddof)
 
 def Correlation(x, y, ddof=0, offset=0):
-    X_av = np.average(x)
-    Y_av = np.average(y)
     X_std = np.std(x)
     Y_std = np.std(y)
+    #varianza espressa come prodotto (o quadrato) delle deviazioni standard
     temp = Covariance(x,y, ddof, offset)
     return temp/(X_std*Y_std)
